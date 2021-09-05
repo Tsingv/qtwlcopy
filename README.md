@@ -1,3 +1,5 @@
 # qtwlcopy
 
-A clipboard like tool to help use fcitx in chromium? Of course it is pure wayland.
+A clipboard like tool to help use fcitx in chromium?
+
+Tested in Sway, without xwayland.
