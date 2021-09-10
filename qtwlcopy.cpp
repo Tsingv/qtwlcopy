@@ -5,6 +5,7 @@
 #include <QKeyEvent>
 #include <iostream>
 #include <string>
+#include <unistd.h>
 
 class win:public QDialog{
     public:
@@ -40,12 +41,18 @@ class win:public QDialog{
 
     private:
         void save2wlcopy(std::string s){
-            std::string command = "wl-copy " + s;
+            std::string filename = "/tmp/qtwlcopyTEMP";
             FILE *fp;
+            FILE *tmp = fopen(filename.c_str(), "wb+");
+            std::string command = "wl-copy < " + filename ;
+            fwrite(s.c_str(), s.length()+1, 1, tmp);
+            fclose(tmp);
             if (NULL==(fp = popen(command.c_str(),"r"))){
                 perror("wl-copy failed!");
                 app->exit(1);
             }
+            pclose(fp);
+            unlink(filename.c_str());
         }
 };
 
