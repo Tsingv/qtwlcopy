@@ -5,6 +5,9 @@ CFLAGS = $(QTFLAGS) -fPIC
 qtwlcopy:qtwlcopy.cpp
 	$(CC) $(CFLAGS) -o qtwlcopy qtwlcopy.cpp
 
+debug:qtwlcopy.cpp
+	$(CC) $(CFLAGS) -g -o qtwlcopy qtwlcopy.cpp
+
 .PHONY:install
 install:
 	@mkdir -p ~/.local/bin/
