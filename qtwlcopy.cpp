@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include <unistd.h>
+#include <fstream>
 
 class win:public QDialog{
     public:
@@ -34,25 +35,27 @@ class win:public QDialog{
             }
             if(e->key() == 0x1000004){
                 // std::cout << "Enter pressed" << std::endl;
-                save2wlcopy(input->text().toStdString());
+                save2wlcopy(input->text().toUtf8().constData());
                 app->exit(0);
             }
         }
 
     private:
         void save2wlcopy(std::string s){
-            std::string filename = "/tmp/qtwlcopyTEMP";
+            const char * filename = "/tmp/qtwlcopyTEMP";
+            const char * command = "wl-copy < /tmp/qtwlcopyTEMP" ;
             FILE *fp;
-            FILE *tmp = fopen(filename.c_str(), "wb+");
-            std::string command = "wl-copy < " + filename ;
-            fwrite(s.c_str(), s.length()+1, 1, tmp);
-            fclose(tmp);
-            if (NULL==(fp = popen(command.c_str(),"r"))){
+            std::fstream tmpfile;
+            tmpfile.open(filename, std::ios::out | std::ios::trunc);
+            tmpfile << s;
+            tmpfile.close();
+
+            if (NULL==(fp = popen(command, "r"))){
                 perror("wl-copy failed!");
                 app->exit(1);
             }
             pclose(fp);
-            unlink(filename.c_str());
+            unlink(filename);
         }
 };
 
