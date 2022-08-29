@@ -10,8 +10,7 @@ debug:qtwlcopy.cpp
 
 .PHONY:install
 install:
-	@mkdir -p ~/.local/bin/
-	@cp -f ./qtwlcopy ~/.local/bin/qtwlcopy
+	@install -D ./qtwlcopy ~/.local/bin/qtwlcopy
 	@echo "qtwlcopy has installed at ~/.local/bin/"
 
 .PHONY:uninstall
